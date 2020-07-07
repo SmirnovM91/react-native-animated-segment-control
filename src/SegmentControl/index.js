@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { View, Animated, ViewPropTypes, Easing } from 'react-native'
+import React from "react";
+import PropTypes from "prop-types";
+import { View, Animated, ViewPropTypes, Easing } from "react-native";
 
-import styles from './styles'
-import Segment from './Segment'
+import styles from "./styles";
+import Segment from "./Segment";
 
 /**
  * A custom `SegmentControl` component, pretty much similar to native's SegmentControl but with animation.
@@ -11,14 +11,14 @@ import Segment from './Segment'
  */
 class SegmentControl extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       selectedIndex: props.selectedIndex,
       segmentDimension: { width: 0, height: 0 },
       activeSegmentPosition: { x: props.offsetHeight, y: props.offsetHeight },
-      positionAnimationValue: new Animated.Value(0)
-    }
+      positionAnimationValue: new Animated.Value(0),
+    };
   }
 
   /**
@@ -26,64 +26,91 @@ class SegmentControl extends React.Component {
    *
    * @param {Number} index
    */
-  onSegmentSelection = index => {
+  onSegmentSelection = (index) => {
     const animate = () => {
       Animated.timing(this.state.positionAnimationValue, {
         toValue: this.state.activeSegmentPosition.x,
         duration: 150,
-        easing: Easing.ease
-      }).start(() => this.props.onChange(index))
-    }
+        easing: Easing.ease,
+        useNativeDriver: true,
+      }).start(() => this.props.onChange(index));
+    };
 
     this.setState(
-      prevState => ({
+      (prevState) => ({
         selectedIndex: index,
-        activeSegmentPosition: { x: prevState.segmentDimension.width * index  + this.props.offsetHeight, y: prevState.activeSegmentPosition.y }
+        activeSegmentPosition: {
+          x: prevState.segmentDimension.width * index + this.props.offsetHeight,
+          y: prevState.activeSegmentPosition.y,
+        },
       }),
       animate
-    )
-  }
+    );
+  };
 
   /**
    * Invoked on mount and layout change of `segmentContainer` view.
    *
    * @param {Object} event
    */
-  segmentOnLayout = event => {
-    const { width, height } = event.nativeEvent.layout
-    const segmentWidth = (width - this.props.offsetHeight * 2) / this.props.values.length
+  segmentOnLayout = (event) => {
+    const { width, height } = event.nativeEvent.layout;
+    const segmentWidth =
+      (width - this.props.offsetHeight * 2) / this.props.values.length;
 
     const animate = () => {
       Animated.timing(this.state.positionAnimationValue, {
-        toValue: segmentWidth * this.state.selectedIndex + this.props.offsetHeight,
-        duration: 100
-      }).start()
-    }
+        toValue:
+          segmentWidth * this.state.selectedIndex + this.props.offsetHeight,
+        duration: 100,
+        useNativeDriver: true,
+      }).start();
+    };
 
-    this.setState(() => ({
-      segmentDimension: { width: segmentWidth, height }
-    }), animate)
-  }
+    this.setState(
+      () => ({
+        segmentDimension: { width: segmentWidth, height },
+      }),
+      animate
+    );
+  };
 
   render() {
-    const { style, disable, activeSegmentStyle, segmentControlStyle, selectedTextStyle, unSelectedTextStyle } = this.props
-    const { width, height } = this.state.segmentDimension
-    const segmentHeight = height - this.props.offsetHeight * 2
+    const {
+      style,
+      disable,
+      activeSegmentStyle,
+      segmentControlStyle,
+      selectedTextStyle,
+      unSelectedTextStyle,
+    } = this.props;
+    const { width, height } = this.state.segmentDimension;
+    const segmentHeight = height - this.props.offsetHeight * 2;
 
-    const isDisabled = disable ? 'none' : 'auto'
-    const extraStyles = disable ? styles.vivid : {}
+    const isDisabled = disable ? "none" : "auto";
+    const extraStyles = disable ? styles.vivid : {};
 
     return (
       <View style={[styles.mainContainer, style]} pointerEvents={isDisabled}>
         <View
-          style={[styles.segmentContainer, extraStyles, { height, borderRadius: height }, segmentControlStyle]}
+          style={[
+            styles.segmentContainer,
+            extraStyles,
+            { height, borderRadius: height },
+            segmentControlStyle,
+          ]}
           onLayout={this.segmentOnLayout}
         >
           {this.props.values.map((segment, index) => (
             <Segment
+              key={String(index)}
               style={{ height: segmentHeight }}
               title={segment}
-              textStyle={index !== this.state.selectedIndex ? unSelectedTextStyle : {...styles.activeText, ...selectedTextStyle}}
+              textStyle={
+                index !== this.state.selectedIndex
+                  ? unSelectedTextStyle
+                  : { ...styles.activeText, ...selectedTextStyle }
+              }
               onPress={() => this.onSegmentSelection(index)}
             />
           ))}
@@ -93,7 +120,7 @@ class SegmentControl extends React.Component {
                 width,
                 height: segmentHeight,
                 left: this.state.positionAnimationValue,
-                top: this.state.activeSegmentPosition.y
+                top: this.state.activeSegmentPosition.y,
               },
               styles.segment,
               styles.activeSegment,
@@ -102,7 +129,7 @@ class SegmentControl extends React.Component {
           />
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -113,8 +140,8 @@ SegmentControl.defaultProps = {
   segmentControlStyle: {},
   activeSegmentStyle: {},
   selectedTextStyle: {},
-  unSelectedTextStyle: {}
-}
+  unSelectedTextStyle: {},
+};
 
 SegmentControl.propTypes = {
   /**
@@ -166,6 +193,6 @@ SegmentControl.propTypes = {
    * Unselected Segment text style.
    */
   unSelectedTextStyle: ViewPropTypes.style,
-}
+};
 
-export default SegmentControl
+export default SegmentControl;
