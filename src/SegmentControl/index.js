@@ -75,6 +75,12 @@ class SegmentControl extends React.Component {
     );
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedIndex !== prevProps.selectedIndex) {
+      this.onSegmentSelection(this.props.selectedIndex);
+    }
+  }
+
   render() {
     const {
       style,
