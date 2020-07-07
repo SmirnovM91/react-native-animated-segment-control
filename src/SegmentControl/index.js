@@ -32,7 +32,7 @@ class SegmentControl extends React.Component {
         toValue: this.state.activeSegmentPosition.x,
         duration: 150,
         easing: Easing.ease,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start(() => this.props.onChange(index));
     };
 
@@ -60,10 +60,9 @@ class SegmentControl extends React.Component {
 
     const animate = () => {
       Animated.timing(this.state.positionAnimationValue, {
-        toValue:
-          segmentWidth * this.state.selectedIndex + this.props.offsetHeight,
+        toValue: this.props.offsetHeight,
         duration: 100,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start();
     };
 
@@ -119,7 +118,7 @@ class SegmentControl extends React.Component {
               {
                 width,
                 height: segmentHeight,
-                left: this.state.positionAnimationValue,
+                transform: [{ translateX: this.state.positionAnimationValue }],
                 top: this.state.activeSegmentPosition.y,
               },
               styles.segment,
