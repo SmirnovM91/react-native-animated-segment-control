@@ -33,8 +33,9 @@ class SegmentControl extends React.Component {
         duration: 150,
         easing: Easing.ease,
         useNativeDriver: true,
-      }).start(() => this.props.onChange(index));
+      }).start();
     };
+    this.props.onChange(index);
 
     this.setState(
       (prevState) => ({
