@@ -1,6 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Animated, ViewPropTypes, Easing } from "react-native";
+import {
+  View,
+  Animated,
+  ViewPropTypes,
+  Easing,
+  TextPropTypes,
+} from "react-native";
 
 import styles from "./styles";
 import Segment from "./Segment";
@@ -187,12 +193,12 @@ SegmentControl.propTypes = {
   /**
    * Selected Segment text style.
    */
-  selectedTextStyle: ViewPropTypes.style,
+  selectedTextStyle: TextPropTypes.style,
 
   /**
    * Unselected Segment text style.
    */
-  unSelectedTextStyle: ViewPropTypes.style,
+  unSelectedTextStyle: TextPropTypes.style,
 };
 
 export default SegmentControl;
