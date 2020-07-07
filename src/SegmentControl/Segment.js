@@ -1,11 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Text,
-  TouchableOpacity,
-  ViewPropTypes,
-  TextPropTypes,
-} from "react-native";
+import { Text, TouchableOpacity, ViewPropTypes } from "react-native";
 
 import styles from "./styles";
 
@@ -27,7 +22,7 @@ Segment.defaultProps = {
 
 Segment.propTypes = {
   title: PropTypes.string.isRequired,
-  textStyle: TextPropTypes.style,
+  textStyle: PropTypes.any,
   onPress: PropTypes.func.isRequired,
   style: ViewPropTypes.style,
 };
