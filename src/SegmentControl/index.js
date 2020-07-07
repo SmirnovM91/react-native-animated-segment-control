@@ -60,7 +60,8 @@ class SegmentControl extends React.Component {
 
     const animate = () => {
       Animated.timing(this.state.positionAnimationValue, {
-        toValue: this.props.offsetHeight,
+        toValue:
+          segmentWidth * this.state.selectedIndex + this.props.offsetHeight,
         duration: 100,
         useNativeDriver: true,
       }).start();
